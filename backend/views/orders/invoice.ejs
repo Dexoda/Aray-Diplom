@@ -1,0 +1,112 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5">
+  <div class="card shadow-sm">
+    <div class="card-body p-5">
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <img src="/images/logo.png" alt="Amour De Beauté" height="50">
+          <h2 class="mt-2">Amour De Beauté</h2>
+          <p class="text-muted">Сұлулық дүкені</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <h1 class="text-primary">ЧЕК</h1>
+          <p class="mb-1">№ <%= order.orderNumber %></p>
+          <p class="mb-1">Күні: <%= new Date(order.createdAt).toLocaleDateString('kk-KZ') %></p>
+          <p class="mb-0">Уақыты: <%= new Date(order.createdAt).toLocaleTimeString('kk-KZ') %></p>
+        </div>
+      </div>
+      
+      <hr>
+      
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h5>Тұтынушы:</h5>
+          <p class="mb-1"><strong>Аты-жөні:</strong> <%= order.shippingAddress.name %></p>
+          <p class="mb-1"><strong>Мекенжай:</strong> <%= order.shippingAddress.street %></p>
+          <p class="mb-1"><strong>Қала:</strong> <%= order.shippingAddress.city %>, <%= order.shippingAddress.postalCode %></p>
+          <p class="mb-1"><strong>Ел:</strong> <%= order.shippingAddress.country %></p>
+          <p class="mb-0"><strong>Телефон:</strong> <%= order.shippingAddress.phone %></p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <h5>Тапсырыс мәліметтері:</h5>
+          <p class="mb-1"><strong>Төлем әдісі:</strong> <%= order.paymentMethod %></p>
+          <p class="mb-0">
+            <strong>Мәртебесі:</strong>
+            <% if (order.status === 'Новый') { %>
+              <span class="badge bg-info">Жаңа</span>
+            <% } else if (order.status === 'Обработан') { %>
+              <span class="badge bg-primary">Өңделген</span>
+            <% } else if (order.status === 'Доставляется') { %>
+              <span class="badge bg-warning">Жеткізілуде</span>
+            <% } else if (order.status === 'Доставлен') { %>
+              <span class="badge bg-success">Жеткізілген</span>
+            <% } else if (order.status === 'Отменен') { %>
+              <span class="badge bg-danger">Бас тартылған</span>
+            <% } %>
+          </p>
+        </div>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Өнім</th>
+              <th class="text-center">Саны</th>
+              <th class="text-end">Бағасы</th>
+              <th class="text-end">Барлығы</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% order.items.forEach(item => { %>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <img src="<%= item.imageUrl %>" alt="<%= item.name %>" width="50" class="me-3">
+                    <div>
+                      <h6 class="mb-0"><%= item.name %></h6>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-center"><%= item.quantity %></td>
+                <td class="text-end"><%= item.price.toFixed(2) %> ₸</td>
+                <td class="text-end"><%= (item.price * item.quantity).toFixed(2) %> ₸</td>
+              </tr>
+            <% }) %>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" class="text-end"><strong>Аралық сома:</strong></td>
+              <td class="text-end"><%= order.totalAmount.toFixed(2) %> ₸</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-end"><strong>Жеткізу:</strong></td>
+              <td class="text-end">0.00 ₸</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-end"><strong>Барлығы:</strong></td>
+              <td class="text-end text-primary"><strong><%= order.totalAmount.toFixed(2) %> ₸</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      
+      <hr>
+      
+      <div class="row">
+        <div class="col-md-8">
+          <p><strong>Ескертпе:</strong></p>
+          <p>Біздің дүкенді таңдағаныңыз үшін рахмет! Сұрақтарыңыз болса, бізге хабарласыңыз.</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <a href="/orders/<%= order._id %>/invoice?format=pdf" class="btn btn-primary" target="_blank">
+            <i class="fas fa-download me-1"></i> PDF жүктеу
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

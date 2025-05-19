@@ -1,0 +1,46 @@
+<%- include('../partials/header') %>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-body p-5">
+        <h2 class="text-center mb-4">Жүйеге кіру</h2>
+        
+        <% if (locals.error) { %>
+          <div class="alert alert-danger" role="alert">
+            <%= error %>
+          </div>
+        <% } %>
+        
+        <form action="/login" method="POST">
+          <div class="mb-3">
+            <label for="email" class="form-label">Электрондық пошта</label>
+            <input 
+              type="email" 
+              class="form-control" 
+              id="email" 
+              name="email" 
+              value="<%= locals.values && values.email || '' %>" 
+              required
+            >
+          </div>
+          
+          <div class="mb-3">
+            <label for="password" class="form-label">Құпия сөз</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">Кіру</button>
+          </div>
+        </form>
+        
+        <div class="text-center mt-3">
+          <p>Әлі тіркелмегенсіз бе? <a href="/register">Тіркелу</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,72 @@
+<%- include('../partials/header') %>
+
+<h2 class="mb-4">Барлық тапсырыстар</h2>
+
+<% if (orders.length === 0) { %>
+  <div class="alert alert-info">
+    <p class="mb-0">Әзірге тапсырыстар жоқ.</p>
+  </div>
+<% } else { %>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Тапсырыс №</th>
+              <th>Тұтынушы</th>
+              <th>Күні</th>
+              <th>Сома</th>
+              <th>Төлем әдісі</th>
+              <th>Төлем мәртебесі</th>
+              <th>Тапсырыс мәртебесі</th>
+              <th>Әрекеттер</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach(order => { %>
+              <tr>
+                <td><%= order.orderNumber %></td>
+                <td><%= order.user.name %></td>
+                <td><%= new Date(order.createdAt).toLocaleDateString('kk-KZ') %></td>
+                <td class="text-primary fw-bold"><%= order.totalAmount.toFixed(2) %> ₸</td>
+                <td><%= order.paymentMethod %></td>
+                <td>
+                  <% if (order.isPaid) { %>
+                    <span class="badge bg-success">Төленген</span>
+                  <% } else { %>
+                    <span class="badge bg-warning">Төленбеген</span>
+                  <% } %>
+                </td>
+                <td>
+                  <form action="/orders/<%= order._id %>/status" method="POST" class="d-flex align-items-center">
+                    <select name="status" class="form-select form-select-sm me-2" style="width: 150px;">
+                      <option value="Новый" <%= order.status === 'Новый' ? 'selected' : '' %>>Жаңа</option>
+                      <option value="Обработан" <%= order.status === 'Обработан' ? 'selected' : '' %>>Өңделген</option>
+                      <option value="Доставляется" <%= order.status === 'Доставляется' ? 'selected' : '' %>>Жеткізілуде</option>
+                      <option value="Доставлен" <%= order.status === 'Доставлен' ? 'selected' : '' %>>Жеткізілген</option>
+                      <option value="Отменен" <%= order.status === 'Отменен' ? 'selected' : '' %>>Бас тартылған</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                      <i class="fas fa-save"></i>
+                    </button>
+                  </form>
+                </td>
+                <td>
+                  <a href="/orders/<%= order._id %>/invoice" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-file-invoice"></i>
+                  </a>
+                  <a href="/orders/<%= order._id %>/invoice?format=pdf" class="btn btn-sm btn-outline-secondary" target="_blank">
+                    <i class="fas fa-file-pdf"></i>
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

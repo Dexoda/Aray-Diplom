@@ -1,0 +1,90 @@
+<%- include('../partials/header') %>
+
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow">
+      <div class="card-body p-5">
+        <h2 class="card-title text-center mb-4">Жаңа өнім қосу</h2>
+        
+        <% if (locals.error) { %>
+          <div class="alert alert-danger" role="alert">
+            <%= error %>
+          </div>
+        <% } %>
+        
+        <form action="/products" method="POST">
+          <div class="mb-3">
+            <label for="name" class="form-label">Атауы</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="brand" class="form-label">Бренд</label>
+            <input type="text" class="form-control" id="brand" name="brand" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="category" class="form-label">Санат</label>
+            <select class="form-select" id="category" name="category" required>
+              <option value="" selected disabled>Санатты таңдаңыз</option>
+              <option value="Бет күтімі">Бет күтімі</option>
+              <option value="Дене күтімі">Дене күтімі</option>
+              <option value="Макияж">Макияж</option>
+              <option value="Парфюмерия">Парфюмерия</option>
+              <option value="Шаш күтімі">Шаш күтімі</option>
+            </select>
+          </div>
+          
+          <div class="mb-3">
+            <label for="description" class="form-label">Сипаттама</label>
+            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="price" class="form-label">Баға (₸)</label>
+              <input type="number" class="form-control" id="price" name="price" min="0" step="0.01" required>
+            </div>
+            
+            <div class="col-md-6">
+              <label for="stock" class="form-label">Қоймадағы саны</label>
+              <input type="number" class="form-control" id="stock" name="stock" min="0" value="10">
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="imageUrl" class="form-label">Сурет URL</label>
+            <input type="url" class="form-control" id="imageUrl" name="imageUrl" required>
+            <div class="form-text">Суреттің толық URL мекенжайын енгізіңіз.</div>
+          </div>
+          
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="isNew" name="isNew">
+                <label class="form-check-label" for="isNew">
+                  Жаңа өнім
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="isFeatured" name="isFeatured">
+                <label class="form-check-label" for="isFeatured">
+                  Танымал өнім
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">Өнімді қосу</button>
+            <a href="/products" class="btn btn-outline-secondary">Бас тарту</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

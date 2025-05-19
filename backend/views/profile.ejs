@@ -1,0 +1,93 @@
+<%- include('./partials/header') %>
+
+<h2 class="mb-4">Менің профилім</h2>
+
+<% if (locals.success) { %>
+  <div class="alert alert-success">
+    <%= success %>
+  </div>
+<% } %>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Жеке ақпарат</h5>
+      </div>
+      <div class="card-body">
+        <form action="/profile" method="POST">
+          <div class="mb-3">
+            <label for="name" class="form-label">Аты-жөні</label>
+            <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="email" class="form-label">Электрондық пошта</label>
+            <input type="email" class="form-control" id="email" value="<%= user.email %>" disabled>
+            <div class="form-text">Электрондық пошта өзгертілмейді.</div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="phone" class="form-label">Телефон</label>
+            <input type="tel" class="form-control" id="phone" name="phone" value="<%= user.phone || '' %>">
+          </div>
+          
+          <h5 class="mt-4 mb-3">Мекенжай</h5>
+          
+          <div class="mb-3">
+            <label for="street" class="form-label">Көше, үй, пәтер</label>
+            <input type="text" class="form-control" id="street" name="street" value="<%= user.address ? user.address.street : '' %>">
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="city" class="form-label">Қала</label>
+              <input type="text" class="form-control" id="city" name="city" value="<%= user.address ? user.address.city : '' %>">
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label for="postalCode" class="form-label">Пошта индексі</label>
+              <input type="text" class="form-control" id="postalCode" name="postalCode" value="<%= user.address ? user.address.postalCode : '' %>">
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <label for="country" class="form-label">Ел</label>
+            <input type="text" class="form-control" id="country" name="country" value="<%= user.address ? user.address.country : 'Қазақстан' %>">
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Сақтау</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Аккаунт ақпараты</h5>
+      </div>
+      <div class="card-body">
+        <p><strong>Рөлі:</strong> 
+          <% if (user.role === 'admin') { %>
+            Әкімші
+          <% } else { %>
+            Тұтынушы
+          <% } %>
+        </p>
+        <p><strong>Тіркелген күні:</strong> <%= new Date(user.createdAt).toLocaleDateString('kk-KZ') %></p>
+        
+        <div class="d-grid gap-2 mt-4">
+          <a href="/orders/mine" class="btn btn-outline-primary">
+            <i class="fas fa-shopping-bag me-1"></i> Менің тапсырыстарым
+          </a>
+          <a href="/logout" class="btn btn-outline-danger">
+            <i class="fas fa-sign-out-alt me-1"></i> Шығу
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('./partials/footer') %>

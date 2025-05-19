@@ -1,0 +1,83 @@
+<%- include('./partials/header') %>
+
+<!-- Hero Banner -->
+<div class="hero-banner bg-light text-center p-5 rounded shadow mb-5">
+  <h1 class="display-4">Amour De Beauté</h1>
+  <p class="lead">Сіздің сұлулығыңыз үшін жоғары сапалы косметика</p>
+  <p>Теріңіз бен сұлулығыңызға қамқорлықпен жасалған сәнді косметика әлемін ашыңыз.</p>
+  <a href="/products" class="btn btn-primary btn-lg">Каталогқа өту</a>
+</div>
+
+<!-- Featured Products -->
+<h2 class="mb-4">Танымал өнімдер</h2>
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+  <% featuredProducts.forEach(product => { %>
+    <div class="col">
+      <div class="card h-100">
+        <% if (product.isNew) { %>
+          <span class="badge bg-success position-absolute top-0 end-0 m-2">Жаңа</span>
+        <% } %>
+        <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
+        <div class="card-body">
+          <h5 class="card-title"><%= product.name %></h5>
+          <p class="card-text text-truncate"><%= product.description %></p>
+          <p class="card-text text-primary fw-bold"><%= product.price.toFixed(2) %> ₸</p>
+          <div class="d-flex justify-content-between">
+            <a href="/products/<%= product._id %>" class="btn btn-outline-primary">Толығырақ</a>
+            <form action="/cart/add" method="POST">
+              <input type="hidden" name="productId" value="<%= product._id %>">
+              <input type="hidden" name="quantity" value="1">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-shopping-cart"></i> Себетке
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+<!-- Categories -->
+<h2 class="mt-5 mb-4">Санаттар</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  <div class="col">
+    <div class="card bg-light h-100">
+      <div class="card-body text-center">
+        <i class="fas fa-spa fa-3x mb-3 text-primary"></i>
+        <h3 class="card-title">Бет күтімі</h3>
+        <p class="card-text">Кремдер, сарысулар, маскалар және бет терісіне күтім жасауға қажетті барлық нәрсе.</p>
+        <a href="/products?category=Бет%20күтімі" class="btn btn-outline-primary">Қарау</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card bg-light h-100">
+      <div class="card-body text-center">
+        <i class="fas fa-pump-soap fa-3x mb-3 text-primary"></i>
+        <h3 class="card-title">Дене күтімі</h3>
+        <p class="card-text">Лосьондар, скрабтар, майлар және дене терісін күтуге арналған басқа құралдар.</p>
+        <a href="/products?category=Дене%20күтімі" class="btn btn-outline-primary">Қарау</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card bg-light h-100">
+      <div class="card-body text-center">
+        <i class="fas fa-magic fa-3x mb-3 text-primary"></i>
+        <h3 class="card-title">Макияж</h3>
+        <p class="card-text">Тоналды құралдар, көлеңкелер, далаптар және мінсіз макияж жасауға арналған барлық нәрсе.</p>
+        <a href="/products?category=Макияж" class="btn btn-outline-primary">Қарау</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- About Us -->
+<div class="mt-5 p-5 bg-light rounded">
+  <h2 class="mb-4">Біз туралы</h2>
+  <p>Amour De Beauté-де біз сұлулықтың күшіне сенеміз. Біздің міндетіміз — әркімге жоғары сапалы косметиканың көмегімен өзінің табиғи сұлулығын ашуға көмектесу.</p>
+  <p>Біздің барлық өнімдеріміз әлемдік брендтердің үздік коллекцияларынан мұқият іріктеліп алынған және ең жоғары сапа стандарттарына сәйкес келеді.</p>
+</div>
+
+<%- include('./partials/footer') %>

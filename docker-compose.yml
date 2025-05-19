@@ -1,0 +1,94 @@
+# version: '3.8'
+
+# services:
+#   app:
+#     build: 
+#       context: ./backend
+#     container_name: cosmetic-shop-app
+#     restart: unless-stopped
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - mongo
+#     environment:
+#       - PORT=3000
+#       - NODE_ENV=development
+#       - MONGODB_URI=mongodb://mongo:27017/cosmetics
+#       - JWT_SECRET=your_jwt_secret
+#       - SESSION_SECRET=your_session_secret
+#       - SEED_DB=true
+#       - ADMIN_EMAIL=admin@example.com
+#       - ADMIN_PASSWORD=admin123
+#     volumes:
+#       - ./backend:/usr/src/app
+#       - /usr/src/app/node_modules
+
+#   mongo:
+#     image: mongo:6.0
+#     container_name: cosmetic-shop-mongo
+#     restart: unless-stopped
+#     ports:
+#       - "27030:27017"
+#     volumes:
+#       - mongodb_data:/data/db
+
+#   mongo-express:
+#     image: mongo-express
+#     container_name: cosmetic-shop-mongo-express
+#     restart: unless-stopped
+#     ports:
+#       - "8081:8081"
+#     environment:
+#       - ME_CONFIG_MONGODB_SERVER=mongo
+#       - ME_CONFIG_MONGODB_PORT=27017
+#     depends_on:
+#       - mongo
+
+# volumes:
+#   mongodb_data:
+
+version: '3'
+services:
+  app:
+    build: ./backend
+    container_name: cosmetic-shop-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mongo
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/cosmetic-shop
+
+  mongo:
+    image: mongo:6.0
+    container_name: cosmetic-shop-mongo
+    restart: unless-stopped
+    ports:
+      - "27030:27017"
+    volumes:
+      - mongo-data:/data/db
+    command: --noauth
+
+  mongo-express:
+    image: mongo-express
+    container_name: cosmetic-shop-mongo-express
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=
+      - ME_CONFIG_BASICAUTH_USERNAME=
+      - ME_CONFIG_BASICAUTH_PASSWORD=
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:

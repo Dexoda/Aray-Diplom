@@ -1,0 +1,62 @@
+<%- include('../partials/header') %>
+
+<h2 class="mb-4">Менің тапсырыстарым</h2>
+
+<% if (orders.length === 0) { %>
+  <div class="alert alert-info">
+    <p class="mb-0">Сізде әлі тапсырыстар жоқ.</p>
+  </div>
+  <a href="/products" class="btn btn-primary">Каталогқа өту</a>
+<% } else { %>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Тапсырыс №</th>
+              <th>Күні</th>
+              <th>Сома</th>
+              <th>Төлем әдісі</th>
+              <th>Мәртебесі</th>
+              <th>Әрекеттер</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% orders.forEach(order => { %>
+              <tr>
+                <td><%= order.orderNumber %></td>
+                <td><%= new Date(order.createdAt).toLocaleDateString('kk-KZ') %></td>
+                <td class="text-primary fw-bold"><%= order.totalAmount.toFixed(2) %> ₸</td>
+                <td><%= order.paymentMethod %></td>
+                <td>
+                  <% if (order.status === 'Новый') { %>
+                    <span class="badge bg-info">Жаңа</span>
+                  <% } else if (order.status === 'Обработан') { %>
+                    <span class="badge bg-primary">Өңделген</span>
+                  <% } else if (order.status === 'Доставляется') { %>
+                    <span class="badge bg-warning">Жеткізілуде</span>
+                  <% } else if (order.status === 'Доставлен') { %>
+                    <span class="badge bg-success">Жеткізілген</span>
+                  <% } else if (order.status === 'Отменен') { %>
+                    <span class="badge bg-danger">Бас тартылған</span>
+                  <% } %>
+                </td>
+                <td>
+                  <a href="/orders/<%= order._id %>/invoice" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-file-invoice me-1"></i> Чек
+                  </a>
+                  <a href="/orders/<%= order._id %>/invoice?format=pdf" class="btn btn-sm btn-outline-secondary" target="_blank">
+                    <i class="fas fa-file-pdf me-1"></i> PDF
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

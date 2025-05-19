@@ -1,0 +1,77 @@
+<%- include('../partials/header') %>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-body p-5">
+        <h2 class="text-center mb-4">Тіркелу</h2>
+        
+        <% if (locals.error) { %>
+          <div class="alert alert-danger" role="alert">
+            <%= error %>
+          </div>
+        <% } %>
+        
+        <form action="/register" method="POST">
+          <div class="mb-3">
+            <label for="name" class="form-label">Толық аты</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="name" 
+              name="name" 
+              value="<%= locals.values && values.name || '' %>" 
+              required
+            >
+          </div>
+          
+          <div class="mb-3">
+            <label for="email" class="form-label">Электрондық пошта</label>
+            <input 
+              type="email" 
+              class="form-control" 
+              id="email" 
+              name="email" 
+              value="<%= locals.values && values.email || '' %>" 
+              required
+            >
+          </div>
+          
+          <div class="mb-3">
+            <label for="password" class="form-label">Құпия сөз</label>
+            <input 
+              type="password" 
+              class="form-control" 
+              id="password" 
+              name="password" 
+              required
+              minlength="6"
+            >
+            <div class="form-text">Құпия сөз кемінде 6 таңбадан тұруы керек.</div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="phone" class="form-label">Телефон</label>
+            <input 
+              type="tel" 
+              class="form-control" 
+              id="phone" 
+              name="phone" 
+              value="<%= locals.values && values.phone || '' %>" 
+            >
+          </div>
+          
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">Тіркелу</button>
+          </div>
+        </form>
+        
+        <div class="text-center mt-3">
+          <p>Тіркелгіңіз бар ма? <a href="/login">Кіру</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

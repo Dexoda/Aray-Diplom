@@ -1,0 +1,24 @@
+<%- include('./partials/header') %>
+
+<div class="row justify-content-center">
+  <div class="col-md-8 text-center">
+    <div class="card shadow-sm p-5">
+      <h1 class="display-1 text-danger"><%= statusCode || 500 %></h1>
+      <h2 class="mb-4">Қате орын алды</h2>
+      <p class="lead"><%= message || 'Серверде қате орын алды.' %></p>
+      
+      <% if (locals.stack && process.env.NODE_ENV === 'development') { %>
+        <div class="alert alert-secondary mt-4 text-start">
+          <pre class="mb-0"><%= stack %></pre>
+        </div>
+      <% } %>
+      
+      <div class="mt-4">
+        <a href="/" class="btn btn-primary me-2">Басты бетке өту</a>
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">Артқа қайту</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('./partials/footer') %>
