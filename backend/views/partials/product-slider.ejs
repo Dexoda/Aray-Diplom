@@ -1,0 +1,34 @@
+<div class="luxury-slider-container mb-5">
+  <div class="luxury-slider">
+    <% sliderProducts.forEach(function(product, i) { %>
+      <div class="luxury-slide luxury-fade-in" style="animation-delay: <%= i * 0.15 %>s;">
+        <div class="card product-card-luxury h-100">
+          <% if (product.isNew) { %>
+            <span class="badge badge-luxury position-absolute top-0 end-0 m-3">
+              <i class="fas fa-star me-1"></i>Жаңа
+            </span>
+          <% } %>
+          <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-burgundy"><%= product.name %></h5>
+            <p class="card-text flex-grow-1 text-truncate"><%= product.description %></p>
+            <p class="product-price-luxury mb-3"><%= product.price.toFixed(2) %> ₸</p>
+            <div class="mt-auto">
+              <form action="/cart/add" method="POST">
+                <input type="hidden" name="productId" value="<%= product._id %>">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="btn btn-luxury w-100">
+                  <i class="fas fa-shopping-bag"></i> Себетке
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+  <button class="luxury-slider-arrow prev"><i class="fas fa-chevron-left"></i></button>
+  <button class="luxury-slider-arrow next"><i class="fas fa-chevron-right"></i></button>
+  <div class="luxury-slider-pagination"></div>
+</div>
+<script src="/js/luxury-slider.js"></script>

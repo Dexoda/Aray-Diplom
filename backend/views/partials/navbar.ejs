@@ -1,72 +1,57 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand" href="/">
-        <img src="/images/logo.png" alt="Amour De Beauté" height="40">
-        Amour De Beauté
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Басты бет</a>
+<nav class="navbar navbar-expand-lg navbar-beige">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <img src="/images/logo.jpg" alt="Amour De Beauté" height="38" class="me-2">
+      <span>Amour De Beauté</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="/">Басты бет</a></li>
+        <li class="nav-item"><a class="nav-link" href="/products">Каталог</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about">Біз туралы</a></li>
+      </ul>
+      <form class="d-flex me-3" action="/products" method="GET">
+        <div class="input-group">
+          <input class="form-control" type="search" name="search" placeholder="Өнімдерді іздеу">
+          <button class="btn btn-beige" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link position-relative" href="/cart">
+            <i class="fas fa-shopping-bag fs-5"></i>
+            <% if (locals.session && locals.session.cart && locals.session.cart.length > 0) { %>
+              <span class="badge bg-secondary position-absolute top-0 start-100 translate-middle">
+                <%= locals.session.cart.length %>
+              </span>
+            <% } %>
+          </a>
+        </li>
+        <% if (locals.user) { %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-user me-1"></i><%= locals.user.name %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="/profile"><i class="fas fa-user me-2"></i>Профиль</a></li>
+              <li><a class="dropdown-item" href="/orders/mine"><i class="fas fa-shopping-bag me-2"></i>Менің тапсырыстарым</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Шығу</a></li>
+            </ul>
           </li>
+        <% } else { %>
           <li class="nav-item">
-            <a class="nav-link" href="/products">Каталог</a>
-          </li>
-          <% if (locals.user && locals.user.role === 'admin') { %>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                Әкімші
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-                <li><a class="dropdown-item" href="/products/admin/create">Өнім қосу</a></li>
-                <li><a class="dropdown-item" href="/orders">Барлық тапсырыстар</a></li>
-              </ul>
-            </li>
-          <% } %>
-        </ul>
-        
-        <form class="d-flex me-2" action="/products" method="GET">
-          <input class="form-control me-2" type="search" name="search" placeholder="Өнімдерді іздеу" aria-label="Search">
-          <button class="btn btn-outline-light" type="submit">Іздеу</button>
-        </form>
-        
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/cart">
-              <i class="fas fa-shopping-cart"></i>
-              <% if (locals.session && locals.session.cart && locals.session.cart.length > 0) { %>
-                <span class="badge bg-light text-dark"><%= locals.session.cart.length %></span>
-              <% } %>
+            <a class="nav-link" href="/login">
+              <i class="fas fa-sign-in-alt me-1"></i>Кіру
             </a>
           </li>
-          
-          <% if (locals.user) { %>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <%= locals.user.name %>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" href="/profile">Профиль</a></li>
-                <li><a class="dropdown-item" href="/orders/mine">Менің тапсырыстарым</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/logout">Шығу</a></li>
-              </ul>
-            </li>
-          <% } else { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Кіру</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/register">Тіркелу</a>
-            </li>
-          <% } %>
-        </ul>
-      </div>
+        <% } %>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>

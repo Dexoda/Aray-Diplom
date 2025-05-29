@@ -1,113 +1,25 @@
 <%- include('../partials/header') %>
-
-<div class="mb-4">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="/">Басты бет</a></li>
-      <li class="breadcrumb-item"><a href="/products">Каталог</a></li>
-      <li class="breadcrumb-item"><a href="/products?category=<%= encodeURIComponent(product.category) %>"><%= product.category %></a></li>
-      <li class="breadcrumb-item active" aria-current="page"><%= product.name %></li>
-    </ol>
-  </nav>
-</div>
-
-<div class="row">
-  <!-- Product Image -->
-  <div class="col-md-5 mb-4">
-    <div class="card shadow-sm">
-      <img src="<%= product.imageUrl %>" class="img-fluid" alt="<%= product.name %>">
-      <% if (product.isNew) { %>
-        <span class="badge bg-success position-absolute top-0 end-0 m-3">Жаңа</span>
-      <% } %>
+<div class="container py-4">
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card card-beige p-3">
+        <img src="<%= product.imageUrl %>" class="card-img-top" alt="<%= product.name %>">
+      </div>
     </div>
-  </div>
-  
-  <!-- Product Details -->
-  <div class="col-md-7">
-    <h1 class="mb-2"><%= product.name %></h1>
-    <h6 class="text-muted mb-3"><%= product.brand %></h6>
-    
-    <div class="mb-3">
-      <span class="badge bg-secondary me-2"><%= product.category %></span>
-      <% if (product.stock > 0) { %>
-        <span class="badge bg-success">Қоймада</span>
-      <% } else { %>
-        <span class="badge bg-danger">Қоймада жоқ</span>
-      <% } %>
-    </div>
-    
-    <h3 class="text-primary mb-4"><%= product.price.toFixed(2) %> ₸</h3>
-    
-    <div class="mb-4">
-      <h5>Сипаттама</h5>
-      <p><%= product.description %></p>
-    </div>
-    
-    <% if (product.stock > 0) { %>
-      <form action="/cart/add" method="POST" class="mb-4">
+    <div class="col-md-6">
+      <h2><%= product.name %></h2>
+      <div class="product-price mb-3"><%= product.price.toFixed(2) %> ₸</div>
+      <div class="mb-3"><%= product.description %></div>
+      <form action="/cart/add" method="POST" class="mb-3">
         <input type="hidden" name="productId" value="<%= product._id %>">
-        <div class="row g-3 align-items-center">
-          <div class="col-auto">
-            <label for="quantity" class="col-form-label">Саны:</label>
-          </div>
-          <div class="col-auto">
-            <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="<%= product.stock %>">
-          </div>
-          <div class="col-auto">
-            <span class="form-text">
-              Қоймада: <%= product.stock %> дана
-            </span>
-          </div>
-          <div class="col-12 mt-3">
-            <button type="submit" class="btn btn-primary btn-lg">
-              <i class="fas fa-shopping-cart me-2"></i> Себетке қосу
-            </button>
-          </div>
-        </div>
+        <input type="number" class="form-control mb-3" name="quantity" value="1" min="1" style="max-width:120px;">
+        <button type="submit" class="btn btn-beige btn-lg w-100">Себетке қосу</button>
       </form>
-    <% } else { %>
-      <div class="alert alert-warning mb-4">
-        Бұл өнім уақытша қолжетімсіз.
-      </div>
-    <% } %>
-    
-    <% if (locals.user && locals.user.role === 'admin') { %>
-      <div class="border-top pt-3 mt-4">
-        <h5 class="mb-3">Админ панелі</h5>
-        <div class="btn-group">
-          <a href="/products/<%= product._id %>/edit" class="btn btn-outline-primary">
-            <i class="fas fa-edit me-1"></i> Өңдеу
-          </a>
-          <form action="/products/<%= product._id %>/delete" method="POST" onsubmit="return confirm('Бұл өнімді шынымен жойғыңыз келе ме?')">
-            <button type="submit" class="btn btn-outline-danger ms-2">
-              <i class="fas fa-trash me-1"></i> Жою
-            </button>
-          </form>
-        </div>
-      </div>
-    <% } %>
-  </div>
-</div>
-
-<!-- Related Products -->
-<% if (relatedProducts && relatedProducts.length > 0) { %>
-  <div class="mt-5">
-    <h3 class="mb-4">Ұқсас өнімдер</h3>
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-      <% relatedProducts.forEach(relProduct => { %>
-        <div class="col">
-          <div class="card h-100 shadow-sm">
-            <img src="<%= relProduct.imageUrl %>" class="card-img-top" alt="<%= relProduct.name %>">
-            <div class="card-body">
-              <h5 class="card-title"><%= relProduct.name %></h5>
-              <p class="card-text text-primary fw-bold"><%= relProduct.price.toFixed(2) %> ₸</p>
-              <a href="/products/<%= relProduct._id %>" class="btn btn-outline-primary w-100">Толығырақ</a>
-            </div>
-          </div>
-        </div>
-      <% }) %>
+      <% if (product.category) { %>
+        <div class="mb-3"><span class="badge bg-secondary"><%= product.category %></span></div>
+      <% } %>
+      <a href="/products" class="btn btn-outline-secondary">&larr; Каталогқа</a>
     </div>
   </div>
-<% } %>
-
+</div>
 <%- include('../partials/footer') %>
